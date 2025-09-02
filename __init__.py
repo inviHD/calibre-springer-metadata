@@ -3,8 +3,8 @@
 from __future__ import unicode_literals
 
 __license__ = 'GPL v3'
-__copyright__ = '2025, Dein Name <dein@email.de>'
-__docformat__ = 'en'
+__copyright__ = '2025, Invi'
+__docformat__ = 'de'
 
 import re
 from urllib.request import Request, urlopen
@@ -14,7 +14,7 @@ from calibre.ebooks.metadata.sources.base import Source
 from calibre.ebooks.metadata.book.base import Metadata
 
 class SpringerMetadata(Source):
-    name = 'Springer'
+    name = 'Springer Metadata'
     description = 'Downloads metadata from Springer Link.'
     supported_platforms = ['windows', 'osx', 'linux']
     author = 'Invi'
@@ -22,7 +22,7 @@ class SpringerMetadata(Source):
     minimum_calibre_version = (3, 48, 0)
 
     capabilities = frozenset(['identify'])
-    touched_fields = frozenset(['title', 'authors', 'publisher', 'pubdate', 'languages', 'tags', 'identifier:isbn', 'comments'])
+    touched_fields = frozenset(['title', 'authors', 'publisher', 'pubdate', 'tags', 'identifier:isbn', 'comments'])
     has_html_comments = True
     can_get_multiple_covers = False
     supports_gzip_transfer_encoding = True
@@ -107,8 +107,7 @@ class SpringerMetadata(Source):
                             pubdate = datetime.datetime.strptime(pubdate_str, '%Y')
                         except Exception:
                             pubdate = None
-            # Sprache (Springer meist Deutsch, kann aber auch Englisch sein)
-            languages = ['de']
+
             # Schlagwörter/Themen
             topics = []
             for item in bib_items:
@@ -129,7 +128,6 @@ class SpringerMetadata(Source):
             mi = Metadata(title, authors_str)
             mi.publisher = publisher
             mi.pubdate = pubdate
-            mi.languages = languages
             mi.comments = comments
             mi.isbn = isbn
             mi.identifiers = {'doi': doi, 'isbn': isbn}
@@ -138,3 +136,4 @@ class SpringerMetadata(Source):
         except Exception as e:
             log.info(f'Fehler: {e}')
             return
+
